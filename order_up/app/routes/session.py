@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, url_for
 from ..forms import LoginForm
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 from ..models import Employee
 
 bp = Blueprint("session", __name__, url_prefix="/session")
