@@ -12,6 +12,8 @@ class Employee(db.Model, UserMixin):
     employee_number = db.Column(db.Integer, nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    order = db.relationship("Order", back_populates="employee")
+
     @property
     def password(self):
         return self.hashed_password
@@ -61,4 +63,15 @@ class Table(db.Model):
     number = db.Column(db.Integer, nullable=False, unique = True)
     capacity = db.Column(db.Integer, nullable=False)
 
-    
+    order_table = db.relationship("Order", back_populates="table")
+
+class Order(db.Model):
+    __tablename__="orders"
+
+    id = db.Column(db.Integer, primary_key=True)
+    employee_id = db.Column(db.Integer, db.ForeignKey("employees.id"), nullable=False)
+    table_id = db.Column(db.Integer, db.ForeignKey("tables.id", nullable=False))
+    finished = db.Column(db.Boolean, nullable=False)
+
+    employee = db.relationship("Employee", back_populates="order")
+    table = db.relationship("Table", back_populates="order_table")
